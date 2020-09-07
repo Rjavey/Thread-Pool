@@ -99,6 +99,7 @@ public class ThreadPool<E extends Runnable> implements ThreadPoolMethod<E> {
         } else {
             initWorker(this.maxSize - this.workerSize);
         }
+        return;
     }
 
     private void addWorkers(int num) {
@@ -130,11 +131,16 @@ public class ThreadPool<E extends Runnable> implements ThreadPoolMethod<E> {
             }
             this.workerSize -= num;
         }
+        return;
     }
 
     private void auto(){
         if (jobs.size() > workerSize && maxSize > workerSize ){
+            autoAddWorkers();
+        }
 
+        if (jobs.size() < workerSize && maxSize == workerSize ){
+            autoRemoveWorker();
         }
     }
 
